@@ -3,16 +3,32 @@ package com.example.mordernandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +36,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mordernandroid.ui.theme.MordernAndroidTheme
@@ -44,7 +64,7 @@ private fun MainApp(
 ) {
     var shouldShowOnboarding by remember { mutableStateOf(true) }
     Surface (modifier) {
-        if (shouldShowOnboarding) {
+        if (false) {
             OnBoardingScreen(onContinueClicked = { shouldShowOnboarding = false })
         } else {
             Greetings()
@@ -74,15 +94,72 @@ fun OnBoardingScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchBar(
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = "",
+        onValueChange = {},
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        placeholder = {
+            Text(stringResource(id = R.string.placeholder_search))
+        } ,
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
+    )
+}
+
+@Composable
+fun AlignYourBodyElement(
+    @DrawableRes drawable: Int,
+    @StringRes text: Int,
+    modifier: Modifier = Modifier
+) {
+    Column (
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(id = drawable),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(88.dp)
+                .clip(CircleShape)
+        )
+        Text(
+            text = stringResource(text),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.paddingFromBaseline(
+                top = 24.dp,
+                bottom = 8.dp
+            )
+        )
+    }
+}
+
+
 @Composable
 private fun Greetings(
     modifier: Modifier = Modifier,
     names: List<String> = listOf("World", "Compose")
 ) {
     Column (modifier = modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
-            Greeting(name = name)
-        }
+        AlignYourBodyElement(
+            text = R.string.ab1_inversions,
+            drawable = R.drawable.yoga,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
 
@@ -122,10 +199,10 @@ fun GreetingPreview() {
     }
 }
 
-@Preview
-@Composable
-fun DefaultPreview() {
-    MordernAndroidTheme {
-        MainApp()
-    }
-}
+//@Preview
+//@Composable
+//fun DefaultPreview() {
+//    MordernAndroidTheme {
+//        MainApp()
+//    }
+//}

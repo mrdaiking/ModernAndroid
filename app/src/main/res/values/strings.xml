@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MordernAndroid</string>
+    <string name="placeholder_search">Text here...</string>
+    <string name="ab1_inversions">Inversions</string>
 </resources>

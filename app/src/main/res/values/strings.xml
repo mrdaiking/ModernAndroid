@@ -3,4 +3,6 @@
     <string name="placeholder_search">Text here...</string>
     <string name="ab1_inversions">Inversions</string>
     <string name="fc2_nature_meditations">Nature meditations</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_profile">Profile</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.mordernandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -62,18 +63,23 @@ import androidx.compose.ui.unit.dp
 import com.example.mordernandroid.ui.theme.MordernAndroidTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import com.example.mordernandroid.ui.components.AlignYourBodyRow
+import com.example.mordernandroid.ui.components.FavoriteCollectionsGrid
+import com.example.mordernandroid.ui.components.SearchBar
+
 
 class MainActivity : ComponentActivity() {
+
+//    private val commentsViewModel: CommentsViewModel by viewModels()
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            MordernAndroidTheme {
-//                MainApp(modifier = Modifier.fillMaxSize())
-//            }
-            val windowSizeClass = calculateWindowSizeClass(activity = this)
-            MySootheApp(windowSize = windowSizeClass)
+            MordernAndroidTheme {
+                MainApp(modifier = Modifier.fillMaxSize())
+            }
+//            val windowSizeClass = calculateWindowSizeClass(activity = this)
+//            MySootheApp(windowSize = windowSizeClass)
         }
     }
 }
@@ -87,11 +93,7 @@ private fun MainApp(
 ) {
     var shouldShowOnboarding by remember { mutableStateOf(true) }
     Surface (modifier) {
-        if (false) {
-            OnBoardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            Greetings()
-        }
+       CommentScreen()
     }
 }
 
@@ -129,59 +131,9 @@ fun OnBoardingScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBar(
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = "",
-        onValueChange = {},
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null
-            )
-        },
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        placeholder = {
-            Text(stringResource(id = R.string.placeholder_search))
-        } ,
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-    )
-}
 
-@Composable
-fun AlignYourBodyElement(
-    @DrawableRes drawable: Int,
-    @StringRes text: Int,
-    modifier: Modifier = Modifier
-) {
-    Column (
-        modifier = modifier
-    ) {
-        Image(
-            painter = painterResource(id = drawable),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(88.dp)
-                .clip(CircleShape)
-        )
-        Text(
-            text = stringResource(text),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.paddingFromBaseline(
-                top = 24.dp,
-                bottom = 8.dp
-            )
-        )
-    }
-}
+
+
 @Composable
 private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
     NavigationBar(
@@ -263,39 +215,7 @@ private fun SootheNavigationRail(
     }
 }
 
-@Composable
-fun FavoriteCollectionCard(
-    @DrawableRes drawable: Int,
-    @StringRes text: Int,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        shape = MaterialTheme.shapes.small,
-        modifier = modifier
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(id = drawable),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(5.dp))
-            )
-            Text(
-                text = stringResource(id = text),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .weight(1f)
-            )
-        }
 
-    }
-}
 
 //@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
 //@Composable
@@ -344,37 +264,24 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FavoriteCollectionsGrid(
+fun CommentScreen(
     modifier: Modifier = Modifier
 ) {
-    LazyHorizontalGrid(
-        rows = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.height(168.dp)
-    ) {
-//        items(favoriteCollectionsData) { item ->
-//            FavoriteCollectionCard(drawable = item.drawable, text = item.text )
-//        }
+    Column (modifier = Modifier.padding(20.dp)){
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            SearchBar()
+            Button(
+                modifier = Modifier.padding(10.dp),
+                onClick = {  }
+            ) {
+                Text("Search")
+            }
+        }
+
     }
 }
-
-@Composable
-fun AlignYourBodyRow(
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        horizontalArrangement= Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier
-    ) {
-//        items(alignYourBodyData) { item ->
-//            AlignYourBodyElement(drawable = item.drawable, text = item.text)
-//        }
-    }
-}
-
 
 @Composable
 private fun Greetings(
@@ -411,6 +318,7 @@ fun Greeting(name: String) {
         }
     }
 }
+
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable

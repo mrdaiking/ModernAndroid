@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class ExampleDao {
-    @Query("SELECT * FROM Example")
-    abstract fun getExamples(): Flow<List<Example>>
+//    @Query("SELECT * FROM Example")
+//    abstract fun getExamples(): Flow<List<Example>>
 }

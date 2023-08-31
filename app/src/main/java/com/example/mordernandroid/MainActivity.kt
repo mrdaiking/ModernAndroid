@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mordernandroid.ui.theme.MordernAndroidTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.ui.text.font.FontWeight
 import com.example.mordernandroid.ui.components.AlignYourBodyRow
 import com.example.mordernandroid.ui.components.FavoriteCollectionsGrid
 import com.example.mordernandroid.ui.components.SearchBar
@@ -271,7 +272,7 @@ fun CommentScreen(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            SearchBar()
+            SearchBar(Modifier.weight(1f))
             Button(
                 modifier = Modifier.padding(10.dp),
                 onClick = {  }
@@ -279,6 +280,11 @@ fun CommentScreen(
                 Text("Search")
             }
         }
+        Spacer(modifier = Modifier.height(50.dp))
+        InfoRow("CommentId", "")
+        InfoRow("Name", "")
+        InfoRow("Email", "")
+        InfoRow("Comment", "")
 
     }
 }
@@ -289,6 +295,15 @@ private fun Greetings(
     names: List<String> = listOf("World", "Compose")
 ) {
     SootheBottomNavigation()
+}
+
+@Composable
+fun InfoRow(label: String, value: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(text = label, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(text = value)
+    }
 }
 
 
